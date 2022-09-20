@@ -15,8 +15,6 @@ export class DocumentService {
   constructor(private http: HttpClient) { }
 
   getAllDocuments(): Observable<Document[]>{
-    console.log(this.documentUrl);
-    
     return this.http.get<Document[]>(this.documentUrl).pipe(catchError(this.handleError));
   }
 

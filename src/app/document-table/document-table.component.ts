@@ -5,6 +5,7 @@ import { MatTable } from '@angular/material/table';
 import { DocumentTableDataSource } from './document-table-datasource';
 import { Document } from '../core/models/document.model';
 import { DocumentService } from '../core/services/document.service';
+import { max } from 'rxjs/operators';
 
 @Component({
   selector: 'app-document-table',
@@ -23,20 +24,21 @@ export class DocumentTableComponent implements AfterViewInit, OnInit {
   constructor(private documentService: DocumentService) { }
 
   ngOnInit() {
-    this.dataSource = new DocumentTableDataSource();
-
     this.documentService.getAllDocuments().subscribe({
       next: data => {
-        console.log(data);
-        
+        data.forEach(d => {
+          let l = Math.min(d.content.length, 200);
+          d.content = d.content.slice(0, l) + " ...";
+        })
+        this.dataSource = new DocumentTableDataSource();
         this.dataSource.data = data;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.table.dataSource = this.dataSource;
       }
     })
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.table.dataSource = this.dataSource;
-  }
+  ngAfterViewInit() { }
+
 }
