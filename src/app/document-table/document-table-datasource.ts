@@ -3,18 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-
-// TODO: Replace this with your own data model type
-export interface DocumentTableItem {
-  id: number;
-  title: string;
-  subtitle: string;
-  url: string;
-  content: string;
-}
+import { Document } from '../core/models/document.model';
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: DocumentTableItem[] = [
+const EXAMPLE_DATA: Document[] = [
   {id: 1, title: 'Hydrogen', subtitle: 'subtitle', url: 'example.com', content: 'content'},
   {id: 2, title: 'Helium', subtitle: 'subtitle', url: 'example.com', content: 'content'},
   {id: 3, title: 'Lithium', subtitle: 'subtitle', url: 'example.com', content: 'content'},
@@ -51,8 +43,8 @@ const EXAMPLE_DATA: DocumentTableItem[] = [
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class DocumentTableDataSource extends DataSource<DocumentTableItem> {
-  data: DocumentTableItem[] = EXAMPLE_DATA;
+export class DocumentTableDataSource extends DataSource<Document> {
+  data: Document[] = [];
   paginator: MatPaginator;
   sort: MatSort;
 
@@ -65,7 +57,7 @@ export class DocumentTableDataSource extends DataSource<DocumentTableItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<DocumentTableItem[]> {
+  connect(): Observable<Document[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -89,7 +81,7 @@ export class DocumentTableDataSource extends DataSource<DocumentTableItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: DocumentTableItem[]) {
+  private getPagedData(data: Document[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -98,7 +90,7 @@ export class DocumentTableDataSource extends DataSource<DocumentTableItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: DocumentTableItem[]) {
+  private getSortedData(data: Document[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
