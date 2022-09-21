@@ -8,6 +8,8 @@ export const environment = {
   production: false,
   apiUrl: {
     document: `${serverHost}/api/v1/elasticsearch/document`,
+    question: `${serverHost}/api/v1/elasticsearch/question-answering`,
+    answer: `${serverHost}/api/v1/elasticsearch/answer-extraction`,
   }
 };
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
+import { Answer } from '../core/models/answer.model';
+import { QuestionService } from '../core/services/question.service';
 
 @Component({
   selector: 'app-question',
@@ -8,12 +10,33 @@ import { FloatLabelType } from '@angular/material/form-field';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-  // floatLabelControl = new FormControl('auto' as FloatLabelType);
-  options = this._formBuilder.group({
-    // floatLabel: this.floatLabelControl,
+  questionControl = new FormControl('', [
+    Validators.required,
+    Validators.nullValidator,
+  ]);
+  languageControl = new FormControl('', [
+    Validators.required,
+    Validators.nullValidator,
+  ]);
+
+  questions = this._formBuilder.group({
+    questionControl: this.questionControl,
+    languageControl: this.languageControl,
   });
-  constructor(private _formBuilder: FormBuilder) { }
+  answers: Answer[] = []
+  
+  constructor(
+    private _formBuilder: FormBuilder,
+    private questionService: QuestionService
+  ) { }
 
   ngOnInit(): void {
+    this.languageControl.setValue('English');
+  }
+
+  onSubmit(): void {
+    this.answers = [];
+    this.questionService.answerQuestion(this.questionControl.value, this.languageControl.value)
+      .subscribe({next: data => this.answers = data})
   }
 }

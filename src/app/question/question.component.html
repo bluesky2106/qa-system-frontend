@@ -3,14 +3,15 @@
 </mat-toolbar>
 
 <div class="question-container">
-  <form [formGroup]="options">
+  <form [formGroup]="questions" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill" class="question">
       <mat-label><b>Question</b></mat-label>
-      <input required matInput placeholder="When was ANZ established ?">
+      <input required matInput [formControl]="questionControl"
+        placeholder="When was ANZ established ?">
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="language">
-      <mat-select required>
+      <mat-select required [formControl]="languageControl">
         <mat-option value="English">English</mat-option>
         <mat-option value="Vietnamese">Vietnamese</mat-option>
       </mat-select>
@@ -23,4 +24,4 @@
   </form>
 </div>
 
-<app-question-table></app-question-table>
+<app-question-table [data]="answers" *ngIf="answers.length > 0"></app-question-table>

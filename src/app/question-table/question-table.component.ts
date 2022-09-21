@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { QuestionTableDataSource, QuestionTableItem } from './question-table-datasource';
+import { Answer } from '../core/models/answer.model';
+import { QuestionTableDataSource } from './question-table-datasource';
 
 @Component({
   selector: 'app-question-table',
@@ -12,19 +13,24 @@ import { QuestionTableDataSource, QuestionTableItem } from './question-table-dat
 export class QuestionTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<QuestionTableItem>;
+  @ViewChild(MatTable) table: MatTable<Answer>;
+  @Input() data: Answer[];
   dataSource: QuestionTableDataSource;
-
+  
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['rank', 'id', 'title', 'url', 'answer', 'score'];
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.dataSource = new QuestionTableDataSource();
   }
 
   ngAfterViewInit() {
+    this.dataSource.data = this.data;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+    this.cdr.detectChanges();
   }
 }
