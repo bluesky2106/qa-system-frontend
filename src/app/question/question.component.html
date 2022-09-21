@@ -1,4 +1,26 @@
 <mat-toolbar color="primary">
   <span>Question Answering</span>
 </mat-toolbar>
+
+<div class="question-container">
+  <form [formGroup]="options">
+    <mat-form-field appearance="fill" class="question">
+      <mat-label><b>Question</b></mat-label>
+      <input required matInput placeholder="When was ANZ established ?">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="language">
+      <mat-select required>
+        <mat-option value="English">English</mat-option>
+        <mat-option value="Vietnamese">Vietnamese</mat-option>
+      </mat-select>
+      <mat-label><mat-icon>favorite</mat-icon><b>Language</b></mat-label>
+    </mat-form-field>
+
+    <mat-card-actions>
+      <button mat-raised-button type="submit" color="primary" class="submit">SUBMIT</button>
+    </mat-card-actions>
+  </form>
+</div>
+
 <app-question-table></app-question-table>

@@ -5,7 +5,6 @@ import { MatTable } from '@angular/material/table';
 import { DocumentTableDataSource } from './document-table-datasource';
 import { Document } from '../core/models/document.model';
 import { DocumentService } from '../core/services/document.service';
-import { max } from 'rxjs/operators';
 
 @Component({
   selector: 'app-document-table',
@@ -20,6 +19,7 @@ export class DocumentTableComponent implements AfterViewInit, OnInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'title', 'subtitle', 'url', 'content'];
+  private contentLengthLimit = 200;
 
   constructor(private documentService: DocumentService) { }
 
@@ -27,7 +27,7 @@ export class DocumentTableComponent implements AfterViewInit, OnInit {
     this.documentService.getAllDocuments().subscribe({
       next: data => {
         data.forEach(d => {
-          let l = Math.min(d.content.length, 200);
+          let l = Math.min(d.content.length, this.contentLengthLimit);
           d.content = d.content.slice(0, l) + " ...";
         })
         this.dataSource = new DocumentTableDataSource();
