@@ -1,3 +1,55 @@
 <mat-toolbar color="primary">
   <span>Answer Extraction</span>
 </mat-toolbar>
+
+<div class="answer-container">
+  <form [formGroup]="qaForm" (ngSubmit)="onSubmit()">
+    <div class='row'>
+      <mat-form-field appearance="fill" class="question">
+        <mat-label><b>Question</b></mat-label>
+        <input required matInput [formControl]="questionControl"
+          placeholder="When was ANZ established ?">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="language">
+        <mat-select required [formControl]="languageControl">
+          <mat-option value="English">English</mat-option>
+          <mat-option value="Vietnamese">Vietnamese</mat-option>
+        </mat-select>
+        <mat-label><mat-icon>favorite</mat-icon><b>Language</b></mat-label>
+      </mat-form-field>
+    </div>
+
+    <div class='column'>
+      <div class='row'>
+        <mat-form-field appearance="fill" class="passage" >
+          <mat-label>Context / Passage</mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="10"
+            [formControl]="passageControl"
+            placeholder="ANZ is one of ...">
+          </textarea>
+        </mat-form-field>
+      </div>
+      
+      <div class='row'>
+        <mat-card-actions>
+          <button mat-raised-button type="submit" color="primary" class="submit">SUBMIT</button>
+        </mat-card-actions>
+      </div>
+    </div>
+  </form>
+
+  <mat-divider></mat-divider>
+
+  <mat-card>
+    <mat-card-title>Answer:</mat-card-title>
+    <mat-card-content>
+      <p>Answer: {{answer.answer}}</p>
+      <p>Score: {{answer.score}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

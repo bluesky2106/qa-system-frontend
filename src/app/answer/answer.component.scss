@@ -1,0 +1,30 @@
+.answer-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.question {
+  width: 70%;
+}
+
+.language {
+  width: 20%;
+}
+
+.passage {
+  width: 90%;
+  // height: 300px;
+}
+
+
+.answer-container form {
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.answer-container form > * {
+  margin: 5px 5px;
+}
+
+.submit {
+  width: 90%;
+}

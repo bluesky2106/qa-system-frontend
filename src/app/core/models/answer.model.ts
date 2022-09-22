@@ -6,3 +6,8 @@ export interface Answer {
   rank: number;
   score: number;
 }
+
+export interface ExtractiveAnswer {
+  answer: string;
+  score: number;
+}
